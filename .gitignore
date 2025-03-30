@@ -1,0 +1,74 @@
+# Ignore Visual Studio and Rider specific files
+.vs/
+.idea/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Ignore build directories
+bin/
+obj/
+
+# Ignore compiled DLLs and executables
+*.dll
+*.exe
+*.pdb
+*.cache
+*.log
+*.csproj.nuget.dgspec.json
+*.csproj.nuget.g.props
+*.csproj.nuget.g.targets
+
+# Ignore package directories
+packages/
+!packages/repositories.config
+
+# Ignore NuGet packages
+*.nupkg
+
+# Ignore app settings that may contain sensitive information
+appsettings.Development.json
+appsettings.Staging.json
+appsettings.Production.json
+
+# Ignore user secrets and configurations
+secrets.json
+*.swp
+*.bak
+
+# Ignore static web assets and generated files
+wwwroot/lib/
+wwwroot/css/
+wwwroot/js/
+wwwroot/img/
+
+# Ignore logs
+logs/
+*.log
+
+# Ignore temporary files
+*.tmp
+*.temp
+
+# Ignore Rider project settings
+.idea/
+*.iml
+
+# Ignore dependency caches
+node_modules/
+
+# Ignore compiled Razor files
+**/obj/**/*.cshtml.g.cs
+
+# Ignore publish output
+publish/
+
+# Ignore database and local development files
+*.mdf
+*.ldb
+*.sqlite
+
+# Ignore any additional system or OS-specific files
+.DS_Store
+Thumbs.db

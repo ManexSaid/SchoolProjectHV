@@ -1,0 +1,75 @@
+@model PatientJournalViewModel
+@{
+    ViewData["Title"] = "Din Journal";
+    var patientName = Model.Patient != null ? $"{Model.Patient.Fornamn} {Model.Patient.Efternamn}" : "Okänd Patient";
+}
+
+<div style="padding: 20px;">
+    <h1>Din Journal (@patientName)</h1>
+
+    @if (TempData["JournalError"] != null)
+    {
+        <div style="color: red; margin: 10px 0; padding: 10px; background-color: #fdd;">
+            @TempData["JournalError"]
+        </div>
+    }
+
+    <button id="createNewBtn" class="button-card" style="width: auto; height: auto; padding: 10px 15px; margin-bottom: 20px;">Ny anteckning</button>
+
+    <form id="journalForm" asp-action="CreateJournal" method="post" class="hidden" style="margin: 20px 0;">
+        @Html.AntiForgeryToken() 
+        <textarea asp-for="NewAnteckning" 
+                  id="anteckningInput"
+                  style="width: 100%; height: 100px; padding: 10px;"
+                  placeholder="Skriv din anteckning här..."></textarea>
+        <span asp-validation-for="NewAnteckning" class="text-danger"></span>
+        <div style="margin-top: 10px;">
+            <button type="submit" class="button-card" style="width: auto; height: auto; padding: 8px 12px; margin-right: 10px;">Spara</button>
+            <button type="button" id="cancelBtn" class="button-card" style="width: auto; height: auto; padding: 8px 12px; background-color: #ccc;">Avbryt</button>
+        </div>
+
+    </form>
+
+    <h2>Befintliga anteckningar</h2>
+    <div id="journalList">
+        @if (Model.Journals == null || !Model.Journals.Any())
+        {
+            <p>Du har inga journalanteckningar än.</p>
+        }
+        else
+        {
+            @foreach (var journal in Model.Journals.OrderByDescending(j => j.JournalId)) 
+            {
+                <div style="background: white; padding: 15px; margin: 10px 0; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
+                    <p>@journal.Anteckning</p>
+                    
+                </div>
+            }
+        }
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");} 
+     <script src="~/js/views/JournalView.js"></script>
+
+    <script>
+        
+        document.addEventListener('DOMContentLoaded', function () {
+            
+            const journalViewInstance = JournalView; 
+            if (journalViewInstance && typeof journalViewInstance.init === 'function') {
+               journalViewInstance.init(); 
+
+                
+                const cancelBtn = document.getElementById('cancelBtn');
+                if(cancelBtn) {
+                    cancelBtn.addEventListener('click', () => journalViewInstance.toggleForm(false));
+                }
+            } else {
+                console.error("JournalView not found or init function missing.");
+            }
+        });
+    </script>
+
+}

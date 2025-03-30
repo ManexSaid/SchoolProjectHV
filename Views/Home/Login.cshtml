@@ -1,0 +1,16 @@
+@{
+    Layout = "_Layout";
+}
+
+<div class="login-container">
+    <h2>Patient Login</h2>
+    @if (TempData["Error"] != null)
+    {
+        <div class="error-message">@TempData["Error"]</div>
+    }
+    <form method="post" action="/Auth/Login">
+        <input type="text" name="personnummer" placeholder="YYYYMMDD-XXXX" required pattern="\d{8}-\d{4}"
+            title="Enter in format YYYYMMDD-XXXX">
+        <button type="submit">Logga in</button>
+    </form>
+</div>

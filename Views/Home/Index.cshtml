@@ -1,0 +1,97 @@
+﻿@{
+    ViewData["Title"] = "Startsida";
+    var isLoggedIn = !string.IsNullOrEmpty(Context.Session.GetString("LoggedInPersonnummer"));
+}
+
+
+@if (TempData["LoginError"] != null)
+{
+    <div style="color: red; text-align: center; margin: 10px; padding: 10px; background-color: #fdd;">
+        @TempData["LoginError"]
+    </div>
+}
+
+<section class="gateway-section">
+    <div class="gateway-row-two-images">
+        <div class="gateway-column">
+            <div class="gateway-image">
+                <img src="~/img/infotable.png" alt="Information" />
+            </div>
+            <div class="gateway-buttons">
+                <div class="button-card">
+                    <a href="#">
+                        <h2>Information</h2>
+                    </a>
+                </div>
+                <div class="button-card">
+                    <a href="#">
+                        <h2>Dokument</h2>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="gateway-column">
+            <div class="gateway-image">
+                <img src="~/img/doctors.png" alt="Läkare i team" />
+            </div>
+            <div class="gateway-buttons">
+                <div class="button-card">
+                    <a href="#">
+                        <h2>Kontakta läkare</h2>
+                    </a>
+                </div>
+
+                <div class="button-card @(isLoggedIn ? "" : "hidden")" id="dinJournalCard">
+                    @if (isLoggedIn)
+                    {
+                        <a asp-controller="Patient" asp-action="Journal">
+                            <h2>Din journal</h2>
+                        </a>
+                    }
+                    else
+                    {
+                        <a href="#">
+                            <h2>Din journal</h2>
+                        </a>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="gateway-row-two-images">
+        <div class="gateway-column">
+            <div class="gateway-image">
+                <img src="~/img/intensivecare.png" alt="Mottagning" />
+            </div>
+            <div class="gateway-buttons">
+                <div class="button-card">
+                    <a href="#">
+                        <h2>Hitta mottagning</h2>
+                    </a>
+                </div>
+                <div class="button-card">
+                    <a href="#">
+                        <h2>Akutmottagning</h2>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="gateway-column">
+            <div class="gateway-image">
+                <img src="~/img/thinkinglady.png" alt="Fundering" />
+            </div>
+            <div class="gateway-buttons">
+                <div class="button-card">
+                    <a href="#">
+                        <h2>Råd till ditt kommande besök</h2>
+                    </a>
+                </div>
+                <div class="button-card">
+                    <a href="#">
+                        <h2>Frågor och svar</h2>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,112 @@
+﻿@using Microsoft.AspNetCore.Http
+<!DOCTYPE html>
+<html lang="sv">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Högskolan Väst Service</title>
+    <link rel="icon" href="~/img/favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="~/css/index.css" />
+</head>
+
+<body>
+    <header>
+        <div class="top-bar">
+            <div class="logo">
+                <img src="~/img/logo.png" alt="Högskolan Väst Sjukhus logotyp" />
+            </div>
+            <nav class="main-nav">
+                <ul>
+                    <li><a asp-controller="Home" asp-action="Index">Startsida</a></li>
+                    <li class="dropdown">
+                        <a href="#">Avdelning och mottagning</a>
+                        <ul class="dropdown-content">
+                            <li><a href="#">Hitta mottagning</a></li>
+                            <li><a href="#">Ortopedi</a></li>
+                            <li><a href="#">Kirurgi</a></li>
+                            <li><a href="#">Vaccination</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#">Patient</a>
+                        <ul class="dropdown-content">
+                            <li><a href="#">Boka tid för besök</a></li>
+                            @if (!string.IsNullOrEmpty(Context.Session.GetString("LoggedInPersonnummer")))
+                            {
+                                <li><a asp-controller="Patient" asp-action="Journal">Din journal</a></li>
+                            }
+                            <li><a href="#">Boka tid för vaccination</a></li>
+                            <li><a href="#">Vanliga frågor</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#">Jobb och framtid</a>
+                        <ul class="dropdown-content">
+                            <li><a href="#">Lediga tjänster</a></li>
+                            <li><a href="#">Karriärvägar</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </nav>
+            <nav class="secondary-nav">
+                <ul>
+                    <li> <a href="#"><img src="~/img/info.png" alt="Om oss" />Om oss</a> </li>
+                    <li> <a href="#"><img src="~/img/map.png" alt="Hitta oss" />Hitta oss</a> </li>
+                    <li> <a href="#"><img src="~/img/language.png" alt="Språk" />Språk</a> </li>
+
+                    @if (!string.IsNullOrEmpty(Context.Session.GetString("LoggedInPersonnummer")))
+                    {
+
+                        <li>
+                            <span style="color: #555; margin-right: 15px;">Inloggad som:
+                                @Context.Session.GetString("LoggedInFullName")</span>
+                        </li>
+                        <li>
+                            <a asp-controller="Patient" asp-action="Logout">
+                                <img src="~/css/img/logout.png" alt="Logga ut" />
+                                <span>Logga ut</span>
+                            </a>
+                        </li>
+                    }
+                    else
+                    {
+
+                        <li class="dropdown">
+                            <a href="#">
+                                <img src="~/img/login.png" alt="Logga in" />
+                                <span> Logga in </span>
+                            </a>
+                            <ul class="dropdown-content" style="min-width: 200px;">
+                                <li>
+
+                                    <form asp-controller="Patient" asp-action="Login" method="post" style="padding: 10px;">
+                                        @Html.AntiForgeryToken()
+                                        <label for="personnummer"
+                                            style="display: block; margin-bottom: 5px; color: #fff;">Patient (Pnr):</label>
+                                        <input type="text" id="personnummer" name="personnummer" placeholder="YYYYMMDD-XXXX"
+                                            required style="width: 100%; padding: 5px; margin-bottom: 5px;" />
+                                        <button type="submit" style="padding: 5px 10px;">Logga in</button>
+                                    </form>
+                                </li>
+                                <li><a href="#">Personal</a></li>
+                            </ul>
+                        </li>
+                    }
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main role="main">
+        @RenderBody()
+    </main>
+
+    <footer>
+        <p>© @DateTime.Now.Year - PatientJournalMVC</p>
+    </footer>
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+
+</html>
